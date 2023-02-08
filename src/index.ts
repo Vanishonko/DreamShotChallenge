@@ -43,35 +43,38 @@ let key: Combination["combinationArray"] = new Combination().combinationArray;
 let keyCopy: any = deepCopy(key);
 console.log(keyCopy.join(' '));
 
+function rotate(obj: PIXI.Container, rotAmount: number, animTime: number){
+	gsap.to(obj, {
+		pixi: {rotation: "+=" + rotAmount},
+		duration: animTime
+	})
+}
+
 function mouseClick(e: PIXI.FederatedMouseEvent): void {
 
-	let rotation_: any = '-=0';
+	let rotation_: any = '0';
 	
 	if (keyCopy[0][1].match("rcl") && e.globalX < interactiveContainer.x) {
 	// 	//we're looking for 'rcl' because it's found in counterclockwise and it's less letters lol
-		rotation_ = "-=60"; 
+		rotation_ = "-60"; 
 	}else if (!keyCopy[0][1].match("rcl") && e.globalX > interactiveContainer.x) {
-		rotation_ = "+=60"; 
+		rotation_ = "+60"; 
 	} else {
 			console.log(keyCopy, "before copying")
 			keyCopy = deepCopy(key);
 			console.log(keyCopy, "after copying")
-			rotation_ = Math.round(Math.random()*100000) - 50000
+			rotation_ = Math.random() > 0.5 ? -1 : 1;
+			rotation_ *= 1000;
 
-			gsap.from(interactiveContainer.doorHandleContainer, {
-				pixi: {rotation: "+=" + rotation_},
-				duration: 2
-			})
+			rotate(interactiveContainer.doorHandleContainer, rotation_, 2);
 			// console.log(keyCopy)
-			rotation_ = '-=0';		
+			rotation_ = '0';		
 	}
-	if(rotation_ != '-=0') keyCopy[0][0] -= 1;
+	if(rotation_ != '0') keyCopy[0][0] -= 1;
 	if(keyCopy[0][0] == 0) { keyCopy.splice(0, 1); console.log(key, keyCopy);}
 	if(keyCopy.length == 0) alert("u won") //lol
-	gsap.to(interactiveContainer.doorHandleContainer, {
-		pixi: {rotation: rotation_},
-		duration: animationTime
-	})
+	rotate(interactiveContainer.doorHandleContainer, rotation_, animationTime)
+	
 	
 	console.log(keyCopy.join(' '));
 
