@@ -3,8 +3,9 @@ import { Container, Sprite } from "pixi.js";
 export class Door extends Container {
 
 	private vaultDoor: Sprite;
-	doorHandleShadow: Sprite; // not private so we can move them together
-	doorHandle: Sprite; //not private so we can set the click func in index.ts
+	doorHandleContainer: Container = new Container();
+	private doorHandleShadow: Sprite; 
+	private doorHandle: Sprite; 
 
 
 constructor(scaleDown: number){
@@ -23,18 +24,19 @@ constructor(scaleDown: number){
 	this.doorHandleShadow = Sprite.from('handleShadow.png');
 	this.doorHandleShadow.scale.set(scaleDown);
 	this.doorHandleShadow.anchor.set(0.5);
-	this.doorHandleShadow.x = 5;
-	this.doorHandleShadow.y = 5;
-	this.addChild(this.doorHandleShadow);
+	this.doorHandleShadow.x = 4;
+	this.doorHandleShadow.y = 4;
+	this.doorHandleContainer.addChild(this.doorHandleShadow);
 
 	this.doorHandle = Sprite.from('handle.png');
 	this.doorHandle.scale.set(scaleDown);
 	this.doorHandle.anchor.set(0.5);
 	this.doorHandle.x = 0;
 	this.doorHandle.y = 0;
-	this.addChild(this.doorHandle);
+	this.doorHandleContainer.addChild(this.doorHandle);
+	this.doorHandleContainer.interactive = true;
 
-	this.doorHandle.interactive = true;	
+	this.addChild(this.doorHandleContainer);	
 }
 
 

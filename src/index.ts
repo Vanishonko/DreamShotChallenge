@@ -30,7 +30,7 @@ mainContainer.addChild(bg);
 
 const interactiveContainer = new Door(scaleDown);
 
-interactiveContainer.doorHandle.on('click', mouseClick, interactiveContainer);
+interactiveContainer.doorHandleContainer.on('click', mouseClick, interactiveContainer);
 
 mainContainer.addChild(interactiveContainer);
 
@@ -58,11 +58,7 @@ function mouseClick(e: PIXI.FederatedMouseEvent): void {
 			console.log(keyCopy, "after copying")
 			rotation_ = Math.round(Math.random()*100000) - 50000
 
-			gsap.from(interactiveContainer.doorHandle, {
-				pixi: {rotation: "+=" + rotation_},
-				duration: 2
-			})
-			gsap.to(interactiveContainer.doorHandleShadow, {
+			gsap.from(interactiveContainer.doorHandleContainer, {
 				pixi: {rotation: "+=" + rotation_},
 				duration: 2
 			})
@@ -72,11 +68,7 @@ function mouseClick(e: PIXI.FederatedMouseEvent): void {
 	if(rotation_ != '-=0') keyCopy[0][0] -= 1;
 	if(keyCopy[0][0] == 0) { keyCopy.splice(0, 1); console.log(key, keyCopy);}
 	if(keyCopy.length == 0) alert("u won") //lol
-	gsap.to(interactiveContainer.doorHandle, {
-		pixi: {rotation: rotation_},
-		duration: animationTime
-	})
-	gsap.to(interactiveContainer.doorHandleShadow, {
+	gsap.to(interactiveContainer.doorHandleContainer, {
 		pixi: {rotation: rotation_},
 		duration: animationTime
 	})
