@@ -75,7 +75,6 @@ async function winningCondition(){
 }
 
 function mouseClick(e: PIXI.FederatedMouseEvent): void {
-	winningCondition();
 	let rotation_: any = '0';
 	
 	if (keyCopy[0][1].match("rcl") && e.globalX < interactiveContainer.x) {
