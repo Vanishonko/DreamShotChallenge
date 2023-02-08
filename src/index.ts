@@ -42,7 +42,7 @@ let key: Combination["combinationArray"] = new Combination().combinationArray;
 console.log(key);
 
 function mouseClick(e: PIXI.FederatedMouseEvent): void {
-	if (e.globalX > interactiveContainer.x && !key[0].match("rcl")){
+	if (e.globalX > interactiveContainer.x && !key[0][1].match("rcl")){
 		//we're looking for 'rcl' because it's found in counterclockwise and it's less letters lol
 		console.log("clockwise")
 		gsap.to(interactiveContainer.doorHandle, {
@@ -55,7 +55,7 @@ function mouseClick(e: PIXI.FederatedMouseEvent): void {
 		})
 
 	}      
-	if (key[0].match("rcl") && e.globalX < interactiveContainer.x){
+	if (key[0][1].match("rcl") && e.globalX < interactiveContainer.x){
 		console.log("counterclockwise")
 		gsap.to(interactiveContainer.doorHandle, {
 			pixi: {rotation: "-=60"},

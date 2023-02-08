@@ -1,5 +1,5 @@
 export class Combination {
-	public combinationArray: string[] = [];
+	public combinationArray: any[][] = [[], [], []]; //disgusting
 	constructor(){
 		let number_: number;
 		//this direction atrocity is so we alternate them,
@@ -7,7 +7,7 @@ export class Combination {
 		let direction: string = Math.random() > 0.5 ? "counterclockwise" : "clockwise";
 		for(let i = 0 ; i < 3 ; ++i){
 			number_ = Math.round(Math.random() * 8 + 1);
-			this.combinationArray.push(number_.toString() + " " + direction);
+			this.combinationArray[i].push(number_, direction);
 			direction = direction == "clockwise" ? "counterclockwise" : "clockwise";
 		}
 	}
