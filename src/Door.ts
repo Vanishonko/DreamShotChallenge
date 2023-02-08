@@ -3,7 +3,7 @@ import { Container, Sprite } from "pixi.js";
 export class Door extends Container {
 
 	private vaultDoor: Sprite;
-	private doorHandleShadow: Sprite;
+	doorHandleShadow: Sprite; // not private so we can move them together
 	doorHandle: Sprite; //not private so we can set the click func in index.ts
 
 
