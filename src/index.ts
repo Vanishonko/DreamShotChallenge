@@ -30,6 +30,25 @@ mainContainer.addChild(bg);
 
 const interactiveContainer = new Door(scaleDown);
 
+const openDoor: PIXI.Sprite = PIXI.Sprite.from("doorOpen.png");
+const winningTimeline = gsap.timeline()
+const winningAnimationDuration: number = 1.5;
+winningTimeline.pause();
+winningTimeline.to(interactiveContainer, {
+	pixi: {alpha: 0},
+	duration: winningAnimationDuration
+}, 1);
+winningTimeline.to(openDoor, {
+	pixi: {alpha: 1},
+	duration: (winningAnimationDuration / 4) * 3
+}, 1);
+
+openDoor.alpha = 0;
+openDoor.scale.set(scaleDown);
+openDoor.anchor.set(0.5); //
+openDoor.position.set((app.screen.width / 2) + 290, app.screen.height / 2); //incredibly ugly hardcoding because i'm drained and i can't figure out the math for the pos
+console.log(openDoor.position)
+mainContainer.addChild(openDoor);
 interactiveContainer.doorHandleContainer.on('click', mouseClick, interactiveContainer);
 
 mainContainer.addChild(interactiveContainer);
@@ -50,8 +69,13 @@ function rotate(obj: PIXI.Container, rotAmount: number, animTime: number){
 	})
 }
 
-function mouseClick(e: PIXI.FederatedMouseEvent): void {
+async function winningCondition(){
+	await winningTimeline.resume();
+	interactiveContainer.destroy();
+}
 
+function mouseClick(e: PIXI.FederatedMouseEvent): void {
+	winningCondition();
 	let rotation_: any = '0';
 	
 	if (keyCopy[0][1].match("rcl") && e.globalX < interactiveContainer.x) {
@@ -60,9 +84,7 @@ function mouseClick(e: PIXI.FederatedMouseEvent): void {
 	}else if (!keyCopy[0][1].match("rcl") && e.globalX > interactiveContainer.x) {
 		rotation_ = "+60"; 
 	} else {
-			console.log(keyCopy, "before copying")
 			keyCopy = deepCopy(key);
-			console.log(keyCopy, "after copying")
 			rotation_ = Math.random() > 0.5 ? -1 : 1;
 			rotation_ *= 1000;
 
@@ -71,8 +93,8 @@ function mouseClick(e: PIXI.FederatedMouseEvent): void {
 			rotation_ = '0';		
 	}
 	if(rotation_ != '0') keyCopy[0][0] -= 1;
-	if(keyCopy[0][0] == 0) { keyCopy.splice(0, 1); console.log(key, keyCopy);}
-	if(keyCopy.length == 0) alert("u won") //lol
+	if(keyCopy[0][0] == 0) keyCopy.splice(0, 1)
+	if(keyCopy.length == 0) winningCondition() //lol
 	rotate(interactiveContainer.doorHandleContainer, rotation_, animationTime)
 	
 	
