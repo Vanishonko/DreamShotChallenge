@@ -7,6 +7,7 @@
     "clean": "rimraf dist"
   },
   "dependencies": {
+    "deep-copy-ts": "^0.5.4",
     "gsap": "^3.11.4",
     "pixi.js": "^7.1.1"
   },

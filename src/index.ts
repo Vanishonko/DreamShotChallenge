@@ -7,6 +7,7 @@ import { Combination } from './Combination';
 
 import { gsap } from "gsap";
 import { PixiPlugin } from 'gsap/PixiPlugin';
+import { deepCopy } from 'deep-copy-ts';
 
 gsap.registerPlugin(PixiPlugin);
 PixiPlugin.registerPIXI(PIXI);
@@ -39,31 +40,47 @@ interactiveContainer.y = app.screen.height / 2 - 4; // scaling and any small dis
 app.stage.addChild(mainContainer);
 
 let key: Combination["combinationArray"] = new Combination().combinationArray;
-console.log(key);
+let keyCopy: any = deepCopy(key);
+console.log(keyCopy.join(' '));
 
 function mouseClick(e: PIXI.FederatedMouseEvent): void {
-	if (e.globalX > interactiveContainer.x && !key[0][1].match("rcl")){
-		//we're looking for 'rcl' because it's found in counterclockwise and it's less letters lol
-		console.log("clockwise")
-		gsap.to(interactiveContainer.doorHandle, {
-			pixi: {rotation: "+=60"},
-			duration: animationTime
-		})
-		gsap.to(interactiveContainer.doorHandleShadow, {
-			pixi: {rotation: "+=60"},
-			duration: animationTime
-		})
 
-	}      
-	if (key[0][1].match("rcl") && e.globalX < interactiveContainer.x){
-		console.log("counterclockwise")
-		gsap.to(interactiveContainer.doorHandle, {
-			pixi: {rotation: "-=60"},
-			duration: animationTime
-		})
-		gsap.to(interactiveContainer.doorHandleShadow, {
-			pixi: {rotation: "-=60" },
-			duration: animationTime
-		})		
+	let rotation_: any = '-=0';
+	
+	if (keyCopy[0][1].match("rcl") && e.globalX < interactiveContainer.x) {
+	// 	//we're looking for 'rcl' because it's found in counterclockwise and it's less letters lol
+		rotation_ = "-=60"; 
+	}else if (!keyCopy[0][1].match("rcl") && e.globalX > interactiveContainer.x) {
+		rotation_ = "+=60"; 
+	} else {
+			console.log(keyCopy, "before copying")
+			keyCopy = deepCopy(key);
+			console.log(keyCopy, "after copying")
+			rotation_ = Math.round(Math.random()*100000) - 50000
+
+			gsap.from(interactiveContainer.doorHandle, {
+				pixi: {rotation: "+=" + rotation_},
+				duration: 2
+			})
+			gsap.to(interactiveContainer.doorHandleShadow, {
+				pixi: {rotation: "+=" + rotation_},
+				duration: 2
+			})
+			// console.log(keyCopy)
+			rotation_ = '-=0';		
 	}
+	if(rotation_ != '-=0') keyCopy[0][0] -= 1;
+	if(keyCopy[0][0] == 0) { keyCopy.splice(0, 1); console.log(key, keyCopy);}
+	if(keyCopy.length == 0) alert("u won") //lol
+	gsap.to(interactiveContainer.doorHandle, {
+		pixi: {rotation: rotation_},
+		duration: animationTime
+	})
+	gsap.to(interactiveContainer.doorHandleShadow, {
+		pixi: {rotation: rotation_},
+		duration: animationTime
+	})
+	
+	console.log(keyCopy.join(' '));
+
 }
