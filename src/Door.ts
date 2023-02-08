@@ -1,10 +1,10 @@
 import { Container, Sprite } from "pixi.js";
 
 export class Door extends Container {
-	
-	vaultDoor: Sprite;
-	doorHandleShadow: Sprite;
-	doorHandle: Sprite;
+
+	private vaultDoor: Sprite;
+	private doorHandleShadow: Sprite;
+	doorHandle: Sprite; //not private so we can set the click func in index.ts
 
 
 constructor(scaleDown: number){
@@ -33,6 +33,9 @@ constructor(scaleDown: number){
 	this.doorHandle.x = 0;
 	this.doorHandle.y = 0;
 	this.addChild(this.doorHandle);
+
+	this.doorHandle.interactive = true;	
 }
+
 
 }

@@ -19,9 +19,18 @@ mainContainer.addChild(bg);
 
 const interactiveContainer = new Door(scaleDown);
 
+interactiveContainer.doorHandle.on('click', mouseClick, interactiveContainer);
+
 mainContainer.addChild(interactiveContainer);
 
 interactiveContainer.x = app.screen.width / 2 - 4 ; // -4 to compensate for the 
 interactiveContainer.y = app.screen.height / 2 - 4; // scaling and any small discrepancies
 
 app.stage.addChild(mainContainer);
+
+
+
+function mouseClick(e: PIXI.FederatedMouseEvent): void {
+	if (e.globalX < interactiveContainer.x) console.log("counter")
+	console.log("clockwise")
+}
