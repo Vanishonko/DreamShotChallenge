@@ -1,6 +1,7 @@
 import * as PIXI from 'pixi.js'
 import { Background } from './Background'
 import { Door } from './Door';
+import { Combination } from './Combination';
 
 const app = new PIXI.Application({
 	view: document.getElementById("pixi-canvas") as HTMLCanvasElement,
@@ -28,7 +29,8 @@ interactiveContainer.y = app.screen.height / 2 - 4; // scaling and any small dis
 
 app.stage.addChild(mainContainer);
 
-
+let key: Combination["combinationArray"] = new Combination().combinationArray;
+console.log(key);
 
 function mouseClick(e: PIXI.FederatedMouseEvent): void {
 	if (e.globalX < interactiveContainer.x) console.log("counter")
