@@ -70,6 +70,7 @@ function rotate(obj: PIXI.Container, rotAmount: number, animTime: number){
 }
 
 async function winningCondition(){
+	interactiveContainer.doorHandleContainer.interactive = false;
 	await winningTimeline.resume();
 	interactiveContainer.destroy();
 }
