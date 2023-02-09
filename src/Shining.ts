@@ -11,7 +11,7 @@ export class Shining extends Sprite {
 		this.alpha = 0;
 		this.addChild(this.particle);
 	}
-	animation(gsap: any): void{
+	animation(gsap: any): void{ //will have to rework lowkey hella ugly
 		gsap.fromTo(this, 3, {
 			pixi: {
 				scale: '-=7%',

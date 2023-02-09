@@ -32,8 +32,8 @@ mainContainer.addChild(bg);
 const interactiveContainer = new Door(scaleDown);
 
 const shiningEffects: Shining[] = [];
-shiningEffects.push(new Shining(520, 300, scaleDown))
-shiningEffects.push(new Shining(580, 400, scaleDown))
+shiningEffects.push(new Shining(503, 277, scaleDown))
+shiningEffects.push(new Shining(588, 288, scaleDown))
 shiningEffects.push(new Shining(660, 340, scaleDown))
 
 const openDoor: PIXI.Sprite = PIXI.Sprite.from("doorOpen.png");
@@ -70,7 +70,9 @@ app.stage.addChild(mainContainer);
 
 let key: Combination["combinationArray"] = new Combination().combinationArray;
 let keyCopy: any = deepCopy(key);
-console.log(keyCopy.join(' '));
+key.forEach(element => {
+	console.log(element.join(' '))
+});
 
 function rotate(obj: PIXI.Container | Shining, rotAmount: number, animTime: number){
 	gsap.to(obj, {
@@ -103,7 +105,6 @@ function mouseClick(e: PIXI.FederatedMouseEvent): void {
 			rotation_ *= 1000;
 
 			rotate(interactiveContainer.doorHandleContainer, rotation_, 2);
-			// console.log(keyCopy)
 			rotation_ = '0';		
 	}
 	if(rotation_ != '0') keyCopy[0][0] -= 1;
@@ -111,7 +112,5 @@ function mouseClick(e: PIXI.FederatedMouseEvent): void {
 	if(keyCopy.length == 0) winningCondition() //lol
 	rotate(interactiveContainer.doorHandleContainer, rotation_, animationTime)
 	
-	
-	console.log(keyCopy.join(' '));
 
 }
