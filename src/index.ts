@@ -37,6 +37,8 @@ shiningEffects.push(new Shining(580, 400, scaleDown))
 shiningEffects.push(new Shining(660, 340, scaleDown))
 
 const openDoor: PIXI.Sprite = PIXI.Sprite.from("doorOpen.png");
+const openDoorShadow: PIXI.Sprite = PIXI.Sprite.from("doorOpenShadow.png");
+const openDoorContainer: PIXI.Container = new PIXI.Container();
 const winningTimeline = gsap.timeline()
 const winningAnimationDuration: number = 1.5;
 winningTimeline.pause();
@@ -44,16 +46,19 @@ winningTimeline.to(interactiveContainer, {
 	pixi: {alpha: 0},
 	duration: winningAnimationDuration
 }, 1);
-winningTimeline.to(openDoor, {
+winningTimeline.to(openDoorContainer, {
 	pixi: {alpha: 1},
 	duration: (winningAnimationDuration / 4) * 3
 }, 1);
 
-openDoor.alpha = 0;
-openDoor.scale.set(scaleDown);
-openDoor.anchor.set(0.5); //
-openDoor.position.set((app.screen.width / 2) + 290, app.screen.height / 2); //incredibly ugly hardcoding because i'm drained and i can't figure out the math for the pos
-mainContainer.addChild(openDoor);
+openDoorContainer.addChild(openDoorShadow, openDoor);
+openDoorShadow.x = 20;
+openDoorShadow.y = 70;
+openDoorContainer.alpha = 0;
+openDoorContainer.scale.set(scaleDown);
+openDoorContainer.pivot.set(0.5); //
+openDoorContainer.position.set((app.screen.width / 2 + app.screen.width / 7) - 6, app.screen.height / 5.5 + 3); //incredibly ugly hardcoding because i'm drained and i can't figure out the math for the pos
+mainContainer.addChild(openDoorContainer);
 interactiveContainer.doorHandleContainer.on('click', mouseClick, interactiveContainer);
 
 mainContainer.addChild(interactiveContainer);
