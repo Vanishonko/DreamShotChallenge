@@ -2,6 +2,7 @@ import * as PIXI from 'pixi.js'
 import { Background } from './Background'
 import { Door } from './Door';
 import { Combination } from './Combination';
+import { Shining } from './Shining';
 
 //enter, gsap
 
@@ -30,6 +31,11 @@ mainContainer.addChild(bg);
 
 const interactiveContainer = new Door(scaleDown);
 
+const shiningEffects: Shining[] = [];
+shiningEffects.push(new Shining(520, 300, scaleDown))
+shiningEffects.push(new Shining(580, 400, scaleDown))
+shiningEffects.push(new Shining(660, 340, scaleDown))
+
 const openDoor: PIXI.Sprite = PIXI.Sprite.from("doorOpen.png");
 const winningTimeline = gsap.timeline()
 const winningAnimationDuration: number = 1.5;
@@ -47,7 +53,6 @@ openDoor.alpha = 0;
 openDoor.scale.set(scaleDown);
 openDoor.anchor.set(0.5); //
 openDoor.position.set((app.screen.width / 2) + 290, app.screen.height / 2); //incredibly ugly hardcoding because i'm drained and i can't figure out the math for the pos
-console.log(openDoor.position)
 mainContainer.addChild(openDoor);
 interactiveContainer.doorHandleContainer.on('click', mouseClick, interactiveContainer);
 
@@ -62,7 +67,7 @@ let key: Combination["combinationArray"] = new Combination().combinationArray;
 let keyCopy: any = deepCopy(key);
 console.log(keyCopy.join(' '));
 
-function rotate(obj: PIXI.Container, rotAmount: number, animTime: number){
+function rotate(obj: PIXI.Container | Shining, rotAmount: number, animTime: number){
 	gsap.to(obj, {
 		pixi: {rotation: "+=" + rotAmount},
 		duration: animTime
@@ -71,7 +76,11 @@ function rotate(obj: PIXI.Container, rotAmount: number, animTime: number){
 
 async function winningCondition(){
 	interactiveContainer.doorHandleContainer.interactive = false;
+	mainContainer.addChild(shiningEffects[0], shiningEffects[1], shiningEffects[2]);
 	await winningTimeline.resume();
+	shiningEffects.forEach(element => {
+		element.animation(gsap);
+	});
 	interactiveContainer.destroy();
 }
 
